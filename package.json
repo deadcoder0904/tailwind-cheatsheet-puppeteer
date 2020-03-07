@@ -8,11 +8,16 @@
     "prod": "NODE_ENV=production node index",
     "start": "npm run prod"
   },
-  "keywords": [],
+  "keywords": [
+    "tailwind",
+    "cheatsheet",
+    "puppeteer",
+    "tailwind-cheatsheet",
+    "tailwind-cheatsheet-puppeteer"
+  ],
   "author": "Akshay Kadam (A2K)",
   "license": "ISC",
   "dependencies": {
-    "lodash.map": "^4.6.0",
     "puppeteer": "^2.1.1"
   }
 }

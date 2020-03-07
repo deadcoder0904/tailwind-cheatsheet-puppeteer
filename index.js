@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 
 const puppeteer = require('puppeteer')
-const map = require('lodash.map')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -70,8 +69,8 @@ const main = async () => {
 
   await page.close()
 
-  const topics = map(data, 'topic')
-  const urls = map(data, 'urls')
+  const topics = data.map(item => item.topic)
+  const urls = data.map(item => item.urls)
   for (let i = 0; i < urls.length; i++) {
     let subTopics = []
     for (let j = 0; j < urls[i].length; j++) {
