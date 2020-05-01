@@ -1,20 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-
 const puppeteer = require('puppeteer')
+const writeJsonFile = require('write-json-file')
 
 const isProd = process.env.NODE_ENV === 'production'
-
-const writeToFile = (filePath, data) => {
-  try {
-    fs.writeFileSync(
-      path.resolve(__dirname, filePath),
-      JSON.stringify(data, null, 2)
-    )
-  } catch (err) {
-    console.error(err)
-  }
-}
 
 const main = async () => {
   let browser,
@@ -28,10 +15,7 @@ const main = async () => {
     })
 
     page = await browser.newPage()
-    await page.goto(
-      'http://web.archive.org/web/20200423022355/https://tailwindcss.com/',
-      { waitUntil: 'networkidle2' }
-    )
+    await page.goto('https://tailwindcss.com', { waitUntil: 'networkidle2' })
 
     // Log Console Tab to Terminal
     page.on('console', async (msg) =>
@@ -146,7 +130,7 @@ const main = async () => {
     json.push({ topic: topics[i], subTopics })
   }
 
-  writeToFile(`versions/${versionNo}.json`, json)
+  await writeJsonFile(`versions/${versionNo}.json`, json)
 
   await browser.close()
 }
