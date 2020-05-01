@@ -4,8 +4,8 @@
   "description": "Tailwind Cheatsheet compiled using Puppeteer",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node index",
-    "prod": "NODE_ENV=production node index",
+    "dev": "cross-env NODE_ENV=development node index",
+    "prod": "cross-env NODE_ENV=production node index",
     "start": "npm run prod"
   },
   "keywords": [
@@ -18,6 +18,9 @@
   "author": "Akshay Kadam (A2K)",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^2.1.1"
+    "puppeteer": "^3.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }

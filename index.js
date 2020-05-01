@@ -24,16 +24,19 @@ const main = async () => {
   try {
     browser = await puppeteer.launch({
       headless: isProd,
-      devtools: !isProd
+      devtools: !isProd,
     })
 
     page = await browser.newPage()
-    await page.goto('https://tailwindcss.com', { waitUntil: 'networkidle2' })
+    await page.goto(
+      'http://web.archive.org/web/20200423022355/https://tailwindcss.com/',
+      { waitUntil: 'networkidle2' }
+    )
 
     // Log Console Tab to Terminal
-    page.on('console', async msg =>
+    page.on('console', async (msg) =>
       console[msg._type](
-        ...(await Promise.all(msg.args().map(arg => arg.jsonValue())))
+        ...(await Promise.all(msg.args().map((arg) => arg.jsonValue())))
       )
     )
   } catch (error) {
@@ -47,7 +50,7 @@ const main = async () => {
 
   const versionNo = await page.$eval(
     versionNoSel,
-    versionNo => versionNo.innerText
+    (versionNo) => versionNo.innerText
   )
 
   const topicsSel = '.mb-8>h5'
@@ -56,21 +59,23 @@ const main = async () => {
   await page.waitForSelector(topicsSel)
 
   const data = await page
-    .$$eval(topicsSel, topics => {
+    .$$eval(topicsSel, (topics) => {
       const headers = topics.slice(4, topics.length - 1)
-      return Array.from(headers).map(node => {
+      return Array.from(headers).map((node) => {
         const lis = node.nextElementSibling.querySelectorAll('li')
         const topic = node.innerText
-        const urls = Array.from(lis).map(li => `${li.querySelector('a').href}/`)
+        const urls = Array.from(lis).map(
+          (li) => `${li.querySelector('a').href}/`
+        )
         return { topic, urls }
       })
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err))
 
   await page.close()
 
-  const topics = data.map(item => item.topic)
-  const urls = data.map(item => item.urls)
+  const topics = data.map((item) => item.topic)
+  const urls = data.map((item) => item.urls)
   for (let i = 0; i < urls.length; i++) {
     let subTopics = []
     for (let j = 0; j < urls[i].length; j++) {
@@ -91,31 +96,31 @@ const main = async () => {
           const hasColor = title.includes('color')
           const hasBreakpoint = Array.from(
             document.querySelectorAll(thSel)
-          ).some(item => item.innerText === 'Breakpoint')
+          ).some((item) => item.innerText === 'Breakpoint')
           let css = []
           const tds = Array.from(document.querySelectorAll(tdSel)).map(
-            item => item.innerText
+            (item) => item.innerText
           )
           if (hasBreakpoint) {
             css.push({ class: tds[0] })
             for (let k = 1; k < tds.length; k += 2) {
               css.push({
                 breakpoint: tds[k],
-                property: tds[k + 1]
+                property: tds[k + 1],
               })
             }
           } else if (hasColor) {
             for (let k = 0; k < tds.length; k += 3) {
               css.push({
                 class: tds[k],
-                property: tds[k + 1]
+                property: tds[k + 1],
               })
             }
           } else {
             for (let k = 0; k < tds.length; k += 2) {
               css.push({
                 class: tds[k],
-                property: tds[k + 1]
+                property: tds[k + 1],
               })
             }
           }
@@ -125,7 +130,7 @@ const main = async () => {
             description,
             url,
             hasBreakpoint,
-            css
+            css,
           }
         },
         titleSel,
