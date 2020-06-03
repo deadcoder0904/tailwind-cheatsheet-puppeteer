@@ -24,7 +24,7 @@ const main = async () => {
       )
     )
   } catch (error) {
-    console.log(`Can't launch Puppeteer`)
+    console.log(`Can't launch Puppeteer ${error}`)
   }
 
   const versionNoSel = 'select>option'

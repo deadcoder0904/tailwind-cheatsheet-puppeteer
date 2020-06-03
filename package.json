@@ -18,7 +18,7 @@
   "author": "Akshay Kadam (A2K)",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^3.0.2",
+    "puppeteer": "^3.3.0",
     "write-json-file": "^4.3.0"
   },
   "devDependencies": {
